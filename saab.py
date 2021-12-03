@@ -15,13 +15,14 @@ class Saab(QMainWindow):
         loader = QUiLoader()
         loader.setWorkingDirectory(QDir.current())
         self.ui = loader.load("saab.ui", self)
-        self.ui.show()
 
         self.ui.action_open.triggered.connect(self.open_database)
         self.ui.button_query.clicked.connect(self.query_database)
         self.ui.action_exit.triggered.connect(self.exit_application)
 
         self.database = None
+
+        self.ui.show()
 
     @Slot()
     def open_database(self):
@@ -35,15 +36,11 @@ class Saab(QMainWindow):
 
         if not self.database.open():
             print(self.database.lastError())
-            return
 
-        self.ui.button_query.setEnabled(True)
+        self.ui.button_query.setEnabled(self.database.isOpen())
 
     @Slot()
     def query_database(self):
-        if not self.database or not self.database.isOpen():
-            return
-
         query_model = QSqlQueryModel()
         query_model.setQuery(self.ui.line_edit_query.text())
 
