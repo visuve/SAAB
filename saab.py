@@ -3,28 +3,24 @@
 
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog
-from PySide6.QtCore import QCoreApplication, QDir, Slot
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtSql import QSqlDatabase, QSqlQueryModel
+from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog
+from PyQt6.QtCore import QCoreApplication, QDir
+from PyQt6.QtSql import QSqlDatabase, QSqlQueryModel
 
 
 class Saab(QMainWindow):
-    def __init__(self, parent=None):
-        super(Saab, self).__init__(parent)
-        loader = QUiLoader()
-        loader.setWorkingDirectory(QDir.current())
-        self.ui = loader.load("saab.ui", self)
+    def __init__(self):
+        super(Saab, self).__init__()
 
-        self.ui.action_open.triggered.connect(self.open_database)
-        self.ui.button_query.clicked.connect(self.query_database)
-        self.ui.action_exit.triggered.connect(self.exit_application)
+        uic.loadUi(QDir.currentPath() + "/saab.ui", self)
+
+        self.action_open.triggered.connect(self.open_database)
+        self.button_query.clicked.connect(self.query_database)
+        self.action_exit.triggered.connect(self.exit_application)
 
         self.database = None
 
-        self.ui.show()
-
-    @Slot()
     def open_database(self):
         database_path = QFileDialog.getOpenFileName(self, "Open SQLite database", QDir.homePath(), "SQLite database (*.sqlite)")[0];
 
@@ -37,17 +33,14 @@ class Saab(QMainWindow):
         if not self.database.open():
             print(self.database.lastError())
 
-        self.ui.button_query.setEnabled(self.database.isOpen())
+        self.button_query.setEnabled(self.database.isOpen())
 
-    @Slot()
     def query_database(self):
         query_model = QSqlQueryModel()
-        query_model.setQuery(self.ui.line_edit_query.text())
+        query_model.setQuery(self.line_edit_query.text())
 
-        self.ui.table_view.setModel(query_model)
+        self.table_view.setModel(query_model)
 
-
-    @Slot()
     def exit_application(self):
         QCoreApplication.exit()
 
