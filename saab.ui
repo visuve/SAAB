@@ -10,29 +10,41 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>SAAB</string>
+  </property>
   <property name="SAAB" stdset="0">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="central_widget">
-   <layout class="QGridLayout" name="grid_layout">
-    <item row="2" column="0">
-     <widget class="QLineEdit" name="line_edit_query">
-      <property name="text">
-       <string>SELECT name FROM sqlite_master WHERE type='table';</string>
+   <layout class="QVBoxLayout" name="vertical_layout">
+    <item>
+     <widget class="QGroupBox" name="group_box">
+      <property name="title">
+       <string>Results:</string>
       </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QTableView" name="table_view"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QCommandLinkButton" name="button_query">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Execute Query</string>
-      </property>
+      <layout class="QGridLayout" name="grid_layout">
+       <item row="0" column="0" colspan="2">
+        <widget class="QTableView" name="table_view"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="line_edit_query">
+         <property name="text">
+          <string>SELECT name FROM sqlite_master WHERE type='table';</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCommandLinkButton" name="button_query">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Execute Query</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -53,7 +65,7 @@
     <addaction name="action_open"/>
     <addaction name="action_exit"/>
    </widget>
-   <addaction name="menuFile"/>
+   <addaction name="menu_file"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_open">
