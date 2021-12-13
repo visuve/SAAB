@@ -22,11 +22,11 @@ class Saab(QMainWindow):
         self.database = None
 
     def open_database(self):
-        database_path = QFileDialog.getOpenFileName(
+        (database_path, file_description) = QFileDialog.getOpenFileName(
             self,
             "Open SQLite database",
             QDir.homePath(),
-            "SQLite database (*.sqlite)")[0]
+            "SQLite database (*.sqlite)")
 
         if not database_path:
             return
